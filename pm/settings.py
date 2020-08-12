@@ -25,7 +25,7 @@ SECRET_KEY = 'tsk#m*qpf^t@pfr*hu-(3^%3sz2)b28gqjldjhw7n3q2a7a^mk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.89.106']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap',
+    'fontawesome',
     'project',
     'contact',
     'task',
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'pm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

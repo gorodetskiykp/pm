@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1> <a href="{% url 'documents:add' %}">[Добавить]</a>
+<table class="table table-hover table-bordered table-sm">
+{% for document in document_list %}
+<tr>
+<td>{{ document.sed_number }}</td>
+<td>{{ document.out_number }}</td>
+<td>{{ document.reg_date|date:"d.m.Y" }}</td>
+<td>{{ document.name }}</td>
+<td>{{ document.project }}</td>
+<td>{{ document.status }}</td>
+<td>{{ document.control }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

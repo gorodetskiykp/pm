@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>{{ title }}
+    {% if document.out_number %}
+    ({{ document.out_number }})
+    {% endif %}
+    от {{ document.reg_date|date:"d.m.Y"}}
+</h1>
+<div>{{ document.name }}</div>
+<div>{{ document.status }}</div>
+<div>{{ document.project }}</div>
+<hr />
+<table class="table table-hover table-bordered table-sm">
+    <tr><td>{{ today|date:"d.m.Y" }}</td>
+    <td>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Записать" />
+        </form>
+    </td>
+    </tr>
+    {% for comment in document.documentcomment_set.all %}
+    <tr>
+        <td>{{ comment.date|date:"d.m.Y" }}</td>
+        <td>{{ comment.comment }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

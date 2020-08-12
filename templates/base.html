@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script defer src="{% static 'fontawesome/js/all.min.js' %}"></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="/admin" target="_blank">Главная</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'documents:all' %}">Документы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'documents:on_control' %}">Документы на контроле</a>
+    </li>
+
+</ul>
+
+{% block content %}{% endblock %}
+<script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

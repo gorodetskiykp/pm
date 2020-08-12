@@ -23,6 +23,7 @@ class Document(models.Model):
     reg_date = models.DateField(verbose_name="Дата регистрации", blank=True)
     project = models.ForeignKey(Project, verbose_name="Проект", blank=True, on_delete=models.PROTECT, null=True)
     status = models.ForeignKey(DocumentStatus, verbose_name="Состояние документа", blank=True, on_delete=models.PROTECT, null=True)
+    control = models.BooleanField(verbose_name="На контроле", default=True)
 
     class Meta:
         verbose_name = "Документ"
@@ -30,7 +31,7 @@ class Document(models.Model):
         ordering = ['-reg_date', 'name', 'sed_number']
 
     def __str__(self):
-        return self.name
+        return f"{self.sed_number} от {self.reg_date}, {self.name}"
 
 
 class Contract(models.Model):
@@ -59,3 +60,17 @@ class Letter(models.Model):
 
     def __str__(self):
         return self.document.name
+
+
+class DocumentComment(models.Model):
+    comment = models.CharField(max_length=100, verbose_name="Комментарий")
+    date = models.DateTimeField(verbose_name="Дата комментария", auto_now=True)
+    document = models.ForeignKey(Document, verbose_name="Документ", on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ["-date"]
+
+    def __str__(self):
+        return self.comment

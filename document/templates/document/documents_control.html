@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1>
+<p>{{ today }}</p>
+
+<table class="table table-hover table-bordered table-sm">
+    <tr>
+        {% for document_cell in documents_table_head %}
+        <th>{{ document_cell }}</th>
+        {% endfor %}
+    </tr>
+    {% for document_row in documents_table_body %}
+    <tr>
+        <td>
+            <div>
+                <span class="badge
+                {% if document_row.0.1.id == 4 %}
+                badge-success
+                {% elif document_row.0.1.id == 2 %}
+                badge-warning
+                {% elif document_row.0.1.id == 3 %}
+                badge-dark
+                {% else %}
+                badge-danger
+                {% endif %}
+                ">{{ document_row.0.1 }}</span>
+            </div>
+            <a href="{% url 'documents:document' document_row.0.0 %}">
+            {% for item in document_row.0|slice:"2:" %}
+                <div>{{ item }}</div>
+            {% endfor %}
+            </a>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="text" name="document_id" value="{{ document_row.0.0 }}" />
+                <input type="submit" value="Прокомментировать" />
+            </form>
+        </td>
+        {% for document_cell in document_row|slice:"1:" %}
+        <td>
+            {% for item in document_cell %}
+            <div>{{ item }}</div>
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
