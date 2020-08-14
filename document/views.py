@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.utils.datetime_safe import date
 from .models import Document, DocumentComment
-from .forms import CommentForm
+from .forms import CommentForm, ControlForm
 
 
 def documents(request):
@@ -16,12 +16,21 @@ def documents(request):
 
 def documents_control(request):
     if request.method == "POST":
-        form = CommentForm(request.POST)
-        document = Document.objects.get(pk=request.POST['document_id'])
-        if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.document = document
-            new_comment.save()
+        if request.POST['form_name'] == 'comment':
+            form = CommentForm(request.POST)
+            document = Document.objects.get(pk=request.POST['document_id'])
+            if form.is_valid():
+                new_comment = form.save(commit=False)
+                new_comment.document = document
+                new_comment.save()
+        if request.POST['form_name'] == 'control':
+            document = Document.objects.get(pk=request.POST['document_id'])
+            form = ControlForm(request.POST, instance=document)
+            if form.is_valid():
+                control_document = form.save(commit=False)
+                control_document.control = False
+                control_document.save()
+        
     document_list = Document.objects.filter(control=True)
     today = timezone.localdate()
     today_weekday = date.isoweekday(today)
@@ -48,7 +57,8 @@ def documents_control(request):
         "document_list": document_list,
         "documents_table_head": documents_table_head,
         "documents_table_body": documents_table_body,
-        "form": CommentForm(),
+        "comment_form": CommentForm(),
+        "control_form": ControlForm(),
         "title": "Документы на контроле",
     }
     return render(request, "document/documents_control.html", context)

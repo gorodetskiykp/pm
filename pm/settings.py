@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap',
     'fontawesome',
+    'widget_tweaks',
     'project',
     'contact',
     'task',

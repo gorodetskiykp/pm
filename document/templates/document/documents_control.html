@@ -33,11 +33,23 @@
             {% endfor %}
             </a>
             <form method="post">
+                <div class="form-group">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <input type="text" name="document_id" value="{{ document_row.0.0 }}" />
-                <input type="submit" value="Прокомментировать" />
+                {{ comment_form.as_p|add_class:"form-control" }}
+                <input type="hidden" name="document_id" value="{{ document_row.0.0 }}" />
+                <input type="hidden" name="form_name" value="comment" />
+                <input type="submit" value="Прокомментировать" class="btn btn-info" />
+                </div>
             </form>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ control_form.as_p }}
+                <input type="hidden" name="document_id" value="{{ document_row.0.0 }}" />
+                <input type="hidden" name="form_name" value="control" />
+                <input type="submit" value="Снять с контроля" class="btn btn-secondary" />
+            </form>
+
         </td>
         {% for document_cell in document_row|slice:"1:" %}
         <td>
